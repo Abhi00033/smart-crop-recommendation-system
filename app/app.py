@@ -90,6 +90,15 @@ st.markdown("---")
 # -----------------------------
 st.subheader("📥 Enter Soil & Weather Parameters")
 
+st.info(
+    """
+    ℹ️ Soil parameters (N, P, K and pH) can be obtained from a Soil Health Card
+    issued by the Government of India or from a laboratory soil testing report.
+    Temperature, humidity and rainfall values can be collected from local
+    weather observations.
+    """
+)
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -165,6 +174,10 @@ if predict_btn:
         ]
     )
 
+    st.subheader("📋 Input Summary")
+
+    st.dataframe(sample, use_container_width=True)
+
     prediction = model.predict(sample)[0]
 
     probabilities = model.predict_proba(sample)[0]
@@ -195,7 +208,7 @@ if predict_btn:
             font-size:32px;
             font-weight:bold;
         ">
-            {prediction.upper()}
+            {best_crop.upper()}
         </div>
         """,
         unsafe_allow_html=True
@@ -206,6 +219,13 @@ if predict_btn:
     st.metric(
         "Prediction Confidence",
         f"{best_confidence:.2%}"
+    )
+
+    st.success(
+        f"""
+        Based on the provided soil and climatic conditions,
+        {prediction.title()} appears to be the most suitable crop.
+        """
     )
 
     st.markdown("---")
@@ -248,5 +268,5 @@ if os.path.exists(feature_path):
 st.markdown("---")
 
 st.info(
-    "Machine Learning Mini Project | Random Forest Classifier | Accuracy: 99.55%"
+    "Developed by Abhishek Bante | Machine Learning Mini Project | Random Forest Classifier | Accuracy: 99.55%"
 )
